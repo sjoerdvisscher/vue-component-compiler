@@ -103,18 +103,14 @@ compiler.compile = function (content, filePath, cb) {
     if (err) return cb(err)
     // style
     if (style) {
-      style = cssMinifier.minify(style)
-        .replace(/"/g, '\\"')
-        .replace(/\n/g, "\\n")
-      output += 'require("insert-css")("' + style + '");\n'
+      style = JSON.stringify(cssMinifier.minify(style))
+      output += 'require("insert-css")(' + style + ');\n'
     }
 
     // template
     if (template) {
-      template = htmlMinifier.minify(template)
-        .replace(/"/g, '\\"')
-        .replace(/\n/g, "\\n")
-      output += 'var __vue_template__ = "' + template + '";\n'
+      template = JSON.stringify(htmlMinifier.minify(template))
+      output += 'var __vue_template__ = ' + template + ';\n'
     }
 
     // js
